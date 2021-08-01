@@ -18,7 +18,7 @@ pcl::visualization::PCLVisualizer::Ptr initScene(Box window, int zoom)
   	viewer->setCameraPosition(0, 0, zoom, 0, 1, 0);
   	viewer->addCoordinateSystem (1.0);
 
-  	viewer->addCube(window.x_min, window.x_max, window.y_min, window.y_max, 0, 0, 1, 1, 1, "window");
+  	viewer->addCube(window.x_min, window.x_max, window.y_min, window.y_max, 0, 0, 0, 0, 0, "window");
   	return viewer;
 }
 
@@ -81,8 +81,13 @@ std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<flo
 	// TODO: Fill out this function to return list of indices for each cluster
 
 	std::vector<std::vector<int>> clusters;
- 
-	return clusters;
+
+	std::cout << "euclideanCluster " << std::endl;
+    std::cout << "points size : " << points.size() << std::endl;
+    std::cout << "points.at(0).size() : " << points.at(0).size() << std::endl;
+
+
+    return clusters;
 
 }
 
@@ -107,14 +112,18 @@ int main ()
 	KdTree* tree = new KdTree;
   
     for (int i=0; i<points.size(); i++) 
-    	tree->insert(points[i],i); 
+    	tree->insert(points[i],i);
+
+    std::cout << "tree->root->point: " << tree->root->point.at(1) << std::endl;
 
   	int it = 0;
   	render2DTree(tree->root,viewer,window, it);
   
   	std::cout << "Test Search" << std::endl;
-  	std::vector<int> nearby = tree->search({-6,7},3.0);
-  	for(int index : nearby)
+  	std::vector<int> nearby = tree->search({-3,7},3);
+    std::cout << "nearby.size: " << nearby.size() << std::endl;
+
+    for(int index : nearby)
       std::cout << index << ",";
   	std::cout << std::endl;
 
